@@ -2,14 +2,6 @@
 
 Producer configuration
 
-
- Producer configuration for releases 1.3.x and earlier is {{{http://twiki.corp.inmobi.com/TechPlatform/MessageProducerConfig?rev\=3}Here}}
-
-
- Producer configuration for 1.4.x and pre 2.0.x is {{{http://twiki.corp.inmobi.com/TechPlatform/MessageProducerConfig?rev\=4}Here}}
-
-
- The configuration for 2.0.x and later is below:
  
 *----------------------------------------------+--------------+-------------------------------------------------------------------------------------------+---------------+
 || Property                                    || Required    || Description                                                                              | Default value |

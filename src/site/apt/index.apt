@@ -8,9 +8,7 @@ Pintail
 
  pintail provides an api for publishing and consuming messages.
  
- Each message contains data in bytes.
- 
- A message can be created with byte array/byte buffer.
+ Each message contains data in bytes. A message can be created with byte array/byte buffer.
  
  See {{{https://github.com/inmobi/pintail/blob/master/messaging\-client\-core/src/main/java/com/inmobi/messaging/Message.java}Message specification}} for the api.
 
@@ -26,4 +24,6 @@ Pintail
 
  * {{{./developer/Monitoring.html}Monitoring}}
  
- 
+* FAQ
+  
+ * Please see the FAQ {{{http://inmobi.github.io/conduit/current/developer/ConduitFAQ.html}here}} 

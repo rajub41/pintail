@@ -44,12 +44,12 @@
 
   <issueManagement>
     <system>Github</system>
-    <url>https://github.com/InMobi/conduit/issues</url>
+    <url>https://github.com/InMobi/pintail/issues</url>
   </issueManagement>
 
   <ciManagement>
     <system>Travis</system>
-    <url>https://travis-ci.org/InMobi/conduit</url>
+    <url>https://travis-ci.org/InMobi/pintail</url>
   </ciManagement>
 
   <distributionManagement>

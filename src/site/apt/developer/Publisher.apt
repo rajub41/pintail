@@ -4,7 +4,7 @@ Publisher
 
 *MessagePublisher
 
- {{{./MessagePublisher.html}MessagePublisher}} can publish messages to multiple topics. If topic does not exist, it will be created. The published message data will be Base\-64 encoded on the file system. See the {{{https://github.com/inmobi/pintail/blob/master/messaging\-client\-core/src/main/java/com/inmobi/messaging/publisher/MessagePublisher.java}Publisher API}} for more details.
+ <<MessagePublisher>> can publish messages to multiple topics. If topic does not exist, it will be created. The published message data will be Base\-64 encoded on the file system. See the {{{https://github.com/inmobi/pintail/blob/master/messaging\-client\-core/src/main/java/com/inmobi/messaging/publisher/MessagePublisher.java}Publisher API}} for more details.
 
 
  A concrete publisher can be created using the {{{https://github.com/inmobi/pintail/blob/master/messaging\-client\-core/src/main/java/com/inmobi/messaging/publisher/MessagePublisherFactory.java}Publisher Factory API}}.
@@ -45,7 +45,7 @@ Publisher
 **Configuration
 
 
- The publisher factory reads the publisher configuration from a file named <<<messaging\-publisher\-conf.properties>>>. See sample configuration at {{{https://github.com/inmobi/pintail/blob/master/conf/messaging\-publisher\-conf.properties}messaging\-publisher\-conf.properties}}. The available configuration properties are described {{{http://twiki.corp.inmobi.com/TechPlatform/MessageProducerConfig}Here}}.
+ The publisher factory reads the publisher configuration from a file named <<<messaging\-publisher\-conf.properties>>>. See sample configuration at {{{https://github.com/inmobi/pintail/blob/master/conf/messaging\-publisher\-conf.properties}messaging\-publisher\-conf.properties}}. The available configuration properties are described {{{./MessageProducerConfig.html}Here}}.
 
 
 
@@ -53,14 +53,4 @@ Publisher
 
 
  This is a utility for selecting a topic bases on the message. Basically, it routes the message to a topic on which it has to publish. {{{https://github.com/inmobi/pintail/pull/4#issuecomment\-189}click here}} for the example code snippets of topic selector and configuration settings for the publisher.
-
-
-
-** Monitoring for publisher
-
-
- The publisher factory reads the emitter configuration from a file specified in configuration property <<<statemitter.filename>>>. See {{{./#Monitoring.html}Monitoring}} section for more details.
-
-
- The stats emitted from publisher are documented here : {{{https://twiki.corp.inmobi.com/TechPlatform/MessageProducerStats}Publisher stats}}
 
