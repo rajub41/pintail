@@ -12,6 +12,28 @@
     <groupId>com.inmobi</groupId>
     <version>1.0.1</version>
   </parent>
+  
+  <organization>
+    <name>InMobi</name>
+    <url>https://github.com/InMobi</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <modules>
+    <module>messaging-client-core</module>
+    <module>messaging-client-logappender</module>
+    <module>messaging-client-scribe</module>
+    <module>messaging-client-flume</module>
+    <module>messaging-client-databus</module>
+    <module>messaging-client-dist</module>
+  </modules>
 
   <scm>
     <connection>scm:git:https://github.com/InMobi/pintail.git</connection>
@@ -20,16 +42,34 @@
     <tag>HEAD</tag>
   </scm>
 
-  <organization>
-    <name>InMobi</name>
-    <url>https://github.com/InMobi</url>
-  </organization>
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/InMobi/conduit/issues</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Travis</system>
+    <url>https://travis-ci.org/InMobi/conduit</url>
+  </ciManagement>
+
+  <distributionManagement>
+    <site>
+      <id>conduit-site</id>
+      <url>https://inmobi.github.io/pintail/</url>
+    </site>
+    <repository>
+      <id>InMobiRepository</id>
+      <name>InMobi Repository</name>
+      <url>https://github.com/InMobi/mvn-repo/raw/master/releases</url>
+    </repository>
+  </distributionManagement>
 
   <properties>
     <test.build.data>${project.build.directory}/test/data</test.build.data>
     <test.root.dir>${project.build.directory}/tmp/test</test.root.dir>
     <databus.version>1.4.0</databus.version>
   </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -147,36 +187,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <distributionManagement>
-    <site>
-      <id>conduit-site</id>
-      <url>https://inmobi.github.io/pintail/</url>
-    </site>
-    <repository>
-      <id>InMobiRepository</id>
-      <name>InMobi Repository</name>
-      <url>https://github.com/InMobi/mvn-repo/raw/master/releases</url>
-    </repository>
-  </distributionManagement>
-
-<issueManagement>
-    <system>Github</system>
-    <url>https://github.com/InMobi/conduit/issues</url>
-  </issueManagement>
-
-  <ciManagement>
-    <system>Travis</system>
-    <url>https://travis-ci.org/InMobi/conduit</url>
-  </ciManagement>
-
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
 
   <repositories>
      <repository>
@@ -301,96 +311,6 @@
     </plugins>
   </build>
 
-  <profiles>
-    <!--  added for cdh4 update -->
-    <profile>
-      <id>hadoop-1.0</id>
-      <activation>
-        <property>
-        <name>hadoop.profile</name>
-         <value>1</value>
-        </property>
-      <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <hadoop.version>0.20.2-cdh3u5</hadoop.version>
-      </properties>
-    <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-core</artifactId>
-        <version>${hadoop.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-test</artifactId>
-        <version>${hadoop.version}</version>
-        <scope>test</scope>
-      </dependency>
-      </dependencies>
-     </dependencyManagement>
-    </profile>
-    
-    
-    
-    <profile>
-      <id>hadoop-2.0</id>
-      <activation>
-        <property>
-          <name>hadoop.profile</name>
-           <value>2</value>
-        </property>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <hadoop.version>2.0.0-cdh4.3.0</hadoop.version>
-        <hadoop2mr1.version>2.0.0-mr1-cdh4.3.0</hadoop2mr1.version>
-      </properties>
-       <dependencyManagement>
-      <dependencies>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-mapreduce-client-core</artifactId>
-        <version>${hadoop.version}</version>
-        <scope>provided</scope>
-        </dependency>
-       <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-hdfs</artifactId>
-        <version>${hadoop.version}</version>
-        <scope>provided</scope>
-        </dependency>
-     <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-core</artifactId>
-      <version>${hadoop2mr1.version}</version>
-      <scope>provided</scope>
-    </dependency>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-common</artifactId>
-        <version>${hadoop.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-test</artifactId>
-        <version>${hadoop2mr1.version}</version>
-        <scope>test</scope>
-      </dependency>
-       <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-minicluster</artifactId>
-        <version>${hadoop2mr1.version}</version>
-        <scope>test</scope>
-        </dependency>
-      </dependencies>
-       </dependencyManagement>
-    </profile>
-  </profiles>
-
   <reporting>
     <plugins>
       <plugin>
@@ -451,12 +371,92 @@
     </plugins>
   </reporting>
 
-  <modules>
-    <module>messaging-client-core</module>
-    <module>messaging-client-logappender</module>
-    <module>messaging-client-scribe</module>
-    <module>messaging-client-flume</module>
-    <module>messaging-client-databus</module>
-    <module>messaging-client-dist</module>
-  </modules>
+    <profiles>
+    <!--  added for cdh4 update -->
+    <profile>
+      <id>hadoop-1.0</id>
+      <activation>
+        <property>
+        <name>hadoop.profile</name>
+         <value>1</value>
+        </property>
+      <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <hadoop.version>0.20.2-cdh3u5</hadoop.version>
+      </properties>
+    <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-core</artifactId>
+        <version>${hadoop.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-test</artifactId>
+        <version>${hadoop.version}</version>
+        <scope>test</scope>
+      </dependency>
+      </dependencies>
+     </dependencyManagement>
+    </profile>
+ 
+    <profile>
+      <id>hadoop-2.0</id>
+      <activation>
+        <property>
+          <name>hadoop.profile</name>
+           <value>2</value>
+        </property>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <hadoop.version>2.0.0-cdh4.3.0</hadoop.version>
+        <hadoop2mr1.version>2.0.0-mr1-cdh4.3.0</hadoop2mr1.version>
+      </properties>
+       <dependencyManagement>
+      <dependencies>
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-mapreduce-client-core</artifactId>
+        <version>${hadoop.version}</version>
+        <scope>provided</scope>
+        </dependency>
+       <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-hdfs</artifactId>
+        <version>${hadoop.version}</version>
+        <scope>provided</scope>
+        </dependency>
+     <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-core</artifactId>
+      <version>${hadoop2mr1.version}</version>
+      <scope>provided</scope>
+    </dependency>
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>${hadoop.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-test</artifactId>
+        <version>${hadoop2mr1.version}</version>
+        <scope>test</scope>
+      </dependency>
+       <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-minicluster</artifactId>
+        <version>${hadoop2mr1.version}</version>
+        <scope>test</scope>
+        </dependency>
+      </dependencies>
+       </dependencyManagement>
+    </profile>
+  </profiles>
+
 </project>
