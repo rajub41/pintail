@@ -263,7 +263,7 @@ public abstract class AbstractMessagingDatabusConsumer
   protected synchronized void start() throws IOException {
     createPartitionReaders();
     for (PartitionReader reader : readers.values()) {
-      reader.start();
+      reader.start(consumerName, topicName);
     }
   }
 
