@@ -54,8 +54,8 @@ public abstract class StreamReader<T extends StreamFile> {
   public boolean prepareMoveToNext(FileStatus currentFile, FileStatus nextFile)
       throws IOException, InterruptedException {
     this.currentFile = nextFile;
-    Date currentTimeStamp = getTimeStampFromCollectorStreamFile(nextFile);
-    updateCurrentMinReadingDir(currentTimeStamp);
+    /*Date currentTimeStamp = getTimeStampFromCollectorStreamFile(nextFile);
+    updateCurrentMinReadingDir(currentTimeStamp);*/
     return true;
   }
 
@@ -441,5 +441,10 @@ public abstract class StreamReader<T extends StreamFile> {
     if (currentReadingDirTimestamp != null) {
       metrics.updateCurrentReadingDir(currentReadingDirTimestamp.getTime());
     }
+  }
+
+  public void updateMetric() {
+    System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ");
+    updateCurrentMinReadingDir(getTimeStampFromCollectorStreamFile(currentFile));
   }
 }

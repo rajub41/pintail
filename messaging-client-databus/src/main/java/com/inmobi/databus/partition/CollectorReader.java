@@ -219,6 +219,7 @@ public class CollectorReader extends AbstractPartitionStreamReader {
       }
       boolean ret = reader.openStream();
       if (ret) {
+        reader.updateMetric();
         LOG.info("Reading file " + reader.getCurrentFile()
             + " and lineNum:" + reader.getCurrentLineNum());
         line = super.readLine();

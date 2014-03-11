@@ -265,6 +265,9 @@ public class CollectorStreamReader extends StreamReader<CollectorFile> {
         }
       }
       line = readNextLine();
+      if (line != null) {
+        updateCurrentMinReadingDir(getTimeStampFromCollectorStreamFile(currentFile));
+      }
     }
     return line;
   }
@@ -295,6 +298,10 @@ public class CollectorStreamReader extends StreamReader<CollectorFile> {
       throws IOException, InterruptedException {
     if (!setNextHigher(fileName)) {
       waitForNextFileCreation(fileName);
+    } else {
+     /* // update the current reading dir/file metric
+      Date currentTimeStamp = getTimeStampFromCollectorStreamFile(currentFile);
+      updateCurrentMinReadingDir(currentTimeStamp);*/
     }
     return true;
   }
@@ -358,6 +365,7 @@ public class CollectorStreamReader extends StreamReader<CollectorFile> {
 
   protected Date getTimeStampFromCollectorStreamFile(FileStatus file) {
     try {
+      System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC " + file.getPath().getName());
       return getDateFromCollectorFile(file.getPath().getName());
     } catch (IOException e) {
       LOG.warn("Exception occured while parsing collector file "
