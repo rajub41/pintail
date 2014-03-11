@@ -18,6 +18,7 @@ public class PartitionReaderStatsExposer extends
   public static final String OPEN = "open";
   public static final String GET_FILE_STATUS = "getFileStatus";
   public static final String EXISTS = "exists";
+  public static final String CURRENT_READ_DIR="currentReadDir";
 
   private final AtomicLong numMessagesReadFromSource = new AtomicLong(0);
   private final AtomicLong numMessagesAddedToBuffer = new AtomicLong(0);
@@ -29,6 +30,7 @@ public class PartitionReaderStatsExposer extends
   private final AtomicLong openOps = new AtomicLong(0);
   private final AtomicLong fileStatusOps = new AtomicLong(0);
   private final AtomicLong existsOps = new AtomicLong(0);
+  private final AtomicLong currentReadigMinDir = new AtomicLong(0);
   private final String pid;
   private final String fsUri;
   private final String FS_LIST, FS_OPEN, FS_GET_FILE_STATUS, FS_EXISTS;
@@ -84,6 +86,10 @@ public class PartitionReaderStatsExposer extends
     numberRecordReaders.incrementAndGet();
   }
 
+  public void updateCurrentReadingDir(long timestamp) {
+    currentReadigMinDir.set(timestamp);
+  }
+
   @Override
   protected void addToStatsMap(Map<String, Number> map) {
     map.put(MESSAGES_READ_FROM_SOURCE, getMessagesReadFromSource());
@@ -96,6 +102,7 @@ public class PartitionReaderStatsExposer extends
     map.put(FS_OPEN, getOpenOps());
     map.put(FS_GET_FILE_STATUS, getFileStatusOps());
     map.put(FS_EXISTS, getExistsOps());
+    map.put(CURRENT_READ_DIR, getCurrentReadingDirTimestamp());
   }
 
   @Override
@@ -142,5 +149,9 @@ public class PartitionReaderStatsExposer extends
 
   public long getExistsOps() {
     return existsOps.get();
+  }
+  
+  public long getCurrentReadingDirTimestamp() {
+    return currentReadigMinDir.get();
   }
 }
