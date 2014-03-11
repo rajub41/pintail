@@ -513,4 +513,9 @@ public class DatabusStreamWaitingReader
       setIterator();
     }
   }
+
+  @Override
+  protected Date getTimeStampFromCollectorStreamFile(FileStatus nextFile) {
+    throw new UnsupportedOperationException("Can not be supported ");
+  }
 }

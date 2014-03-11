@@ -1,6 +1,7 @@
 package com.inmobi.databus.readers;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TreeMap;
@@ -28,6 +29,9 @@ public class LocalStreamCollectorReader extends
 
   private static final Log LOG = LogFactory.getLog(
       LocalStreamCollectorReader.class);
+
+  private static final String FILE_EXTENSION = ".gz";
+
   private final String collector;
   private final String streamName;
 
@@ -246,4 +250,27 @@ public class LocalStreamCollectorReader extends
     return setNextHigher(localStreamFileName);
   }
 
+  /*
+   * Returns the time stamp for a given file
+   */
+  protected Date getTimeStampFromCollectorStreamFile(FileStatus file) {
+    String fileName = file.getPath().getName();
+    String [] splits = fileName.split(streamName);
+    /*
+     * split[0] ----> collector
+     * split[1] ----> yyyy-mm-dd-hh-mn_00000.gz
+     */
+    String timeStampString;
+    if (splits.length == 2) {
+      timeStampString = splits[1];
+      timeStampString.substring(0, timeStampString.length() - FILE_EXTENSION.length());
+      try {
+        return CollectorFile.fileFormat.get().parse(timeStampString);
+      } catch (ParseException e1) {
+        LOG.warn("Exception occured while parsing local stream file "
+            + file.getPath() + " for the timestamp ");
+      }
+    }
+    return null;
+  }
 }

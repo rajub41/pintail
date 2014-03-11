@@ -355,4 +355,14 @@ public class CollectorStreamReader extends StreamReader<CollectorFile> {
     }
     return super.hasReadFully();
   }
+
+  protected Date getTimeStampFromCollectorStreamFile(FileStatus file) {
+    try {
+      return getDateFromCollectorFile(file.getPath().getName());
+    } catch (IOException e) {
+      LOG.warn("Exception occured while parsing collector file "
+          + file.getPath() + " for the timestamp ");
+    }
+    return null;
+  }
 }
