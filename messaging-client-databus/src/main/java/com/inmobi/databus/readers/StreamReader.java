@@ -432,4 +432,8 @@ public abstract class StreamReader<T extends StreamFile> {
     }
     return false;
   }
+
+  protected void updateCurrentMinReadingDir(Date currentReadingDirTimestamp) {
+    metrics.updateCurrentReadingDir(currentReadingDirTimestamp.getTime());
+  }
 }

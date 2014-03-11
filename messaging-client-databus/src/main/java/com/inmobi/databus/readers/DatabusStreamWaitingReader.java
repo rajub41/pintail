@@ -164,6 +164,9 @@ public class DatabusStreamWaitingReader
 
     if (getFirstFileInStream() != null && (currentMin == -1)) {
       currentMin = getMinuteFromFile(getFirstFileInStream());
+      Date currentReadingDirTimestamp = getDateFromStreamDir(streamDir,
+          getFirstFileInStream().getPath().getParent());
+      updateCurrentMinReadingDir(currentReadingDirTimestamp);
     }
   }
 
@@ -198,6 +201,8 @@ public class DatabusStreamWaitingReader
 
     boolean readFromCheckpoint = false;
     if (currentMin != next.get(Calendar.MINUTE)) {
+      // update current reading dir metric
+      updateCurrentMinReadingDir(nextFileTimeStamp);
       if (currentFile != null) {
         Date currentFileTimeStamp = getDateFromStreamDir(streamDir, currentFile
             .getPath().getParent());
