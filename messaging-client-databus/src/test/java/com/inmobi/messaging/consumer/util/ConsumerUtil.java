@@ -164,9 +164,11 @@ public class ConsumerUtil {
     for (int i = 0; i < numCounters; i++) {
       Assert.assertEquals(markedcounter2[i], numDataFiles * numMessagesPerFile);
     }
+    System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMmmmmarking ");
+    consumer.mark();
     consumer.close();
     Assert.assertEquals(((BaseMessageConsumerStatsExposer) (
-        consumer.getMetrics())).getNumMarkCalls(), 0);
+        consumer.getMetrics())).getNumMarkCalls(), 1);
     Assert.assertEquals(((BaseMessageConsumerStatsExposer) (
         consumer.getMetrics())).getNumResetCalls(), 0);
     Assert.assertEquals(((BaseMessageConsumerStatsExposer) (

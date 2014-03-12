@@ -159,7 +159,9 @@ public class DatabusConsumer extends AbstractMessagingDatabusConsumer
           if (!clusterName.equals(clusterNamePrefix + i) && pck == null) {
             PartitionId oldPid = new PartitionId(clusterNamePrefix + i, collector);
             pck = partitionsChkPoints.get(oldPid);
-            partitionIdMap.put(oldPid, id);
+            //((Checkpoint) currentCheckpoint).set(id, pck);
+            ((Checkpoint) currentCheckpoint).remove(oldPid);
+            //partitionIdMap.put(oldPid, id);
           }
           Date partitionTimestamp = getPartitionTimestamp(id, pck);
           LOG.debug("Creating partition " + id);

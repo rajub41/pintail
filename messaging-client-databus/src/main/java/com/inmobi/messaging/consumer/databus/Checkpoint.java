@@ -170,13 +170,13 @@ public class Checkpoint implements Writable, ConsumerCheckpoint {
 
   @Override
   public void migrateCheckpoint(Map<PartitionId, PartitionId> oldNewPidMap) {
-    for (Map.Entry<PartitionId, PartitionCheckpoint> pckEntry :
-      partitionsChkPoint.entrySet()) {
+   /* for (Map.Entry<PartitionId, PartitionCheckpoint> pckEntry :
+      getPartitionsCheckpoint().entrySet()) {
       PartitionId pid = pckEntry.getKey();
       if (oldNewPidMap.containsKey(pid)) {
-        partitionsChkPoint.put(oldNewPidMap.get(pid), pckEntry.getValue());
-        partitionsChkPoint.remove(pid);
+        set(oldNewPidMap.get(pid), pckEntry.getValue());
+        remove(pid);
       }
-    }
+    }*/
   }
 }
