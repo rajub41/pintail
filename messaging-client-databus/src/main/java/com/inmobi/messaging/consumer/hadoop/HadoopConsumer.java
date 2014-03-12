@@ -57,7 +57,9 @@ public class HadoopConsumer extends AbstractMessagingDatabusConsumer
         PartitionId oldPid = new PartitionId(clusterNames[i], null);
         clusterNames[i] = clusterNameStrs[i];
         PartitionId newPid = new PartitionId(clusterNames[i], null);
+        if (!oldPid.equals(newPid)) {
         partitionIdMap.put(oldPid, newPid);
+        }
       }
       assert clusterNameStrs.length == rootDirStrs.length;
     } else {

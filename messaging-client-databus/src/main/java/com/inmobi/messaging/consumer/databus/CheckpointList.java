@@ -1,16 +1,17 @@
 package com.inmobi.messaging.consumer.databus;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import com.inmobi.databus.partition.DeltaPartitionCheckPoint;
-
 import com.inmobi.databus.partition.PartitionCheckpoint;
 import com.inmobi.databus.partition.PartitionCheckpointList;
 import com.inmobi.databus.partition.PartitionId;
 import com.inmobi.messaging.checkpoint.CheckpointProvider;
+import com.sun.xml.bind.v2.runtime.output.Pcdata;
 
 /**
  * Checkpoint for the segments of databus stream consumer.
@@ -114,17 +115,29 @@ public class CheckpointList implements ConsumerCheckpoint {
       throws IOException {
     for (Map.Entry<Integer, Checkpoint> entry : chkpoints.entrySet()) {
       Checkpoint checkpoint = chkpoints.get(entry.getKey());
+      Checkpoint newCheckpoint = new Checkpoint();
+      Map<PartitionId, PartitionCheckpoint> tmpPckMap =
+          new HashMap<PartitionId, PartitionCheckpoint>();
+      for (Map.Entry<PartitionId, PartitionCheckpoint> entryTmpPck : checkpoint.getPartitionsCheckpoint().entrySet()) {
+        tmpPckMap.put(entryTmpPck.getKey(), entryTmpPck.getValue());
+      }
+      System.out.println("TTTTTMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM " + tmpPckMap);
       for (Map.Entry<PartitionId, PartitionCheckpoint> partitionCkEntry :
         checkpoint.getPartitionsCheckpoint().entrySet()) {
         PartitionId oldPid = partitionCkEntry.getKey();
         if (oldNewPidMap.containsKey(oldPid)) {
           PartitionCheckpoint pck = partitionCkEntry.getValue();
           PartitionId newPid = oldNewPidMap.get(oldPid);
-          checkpoint.set(newPid, pck);
-          checkpoint.remove(oldPid);
+          newCheckpoint.set(newPid, pck);
+          /*tmpPckMap.put(newPid, pck);
+          tmpPckMap.remove(oldPid);*/
+
         }
       }
-      chkpoints.put(entry.getKey(), checkpoint);
+     /* for (Map.Entry<PartitionId, PartitionCheckpoint> entryTmpPck : tmpPckMap.entrySet()) {
+        checkpoint.set(entryTmpPck.getKey(), entryTmpPck.getValue());
+      }*/
+      chkpoints.put(entry.getKey(), newCheckpoint);
     }
   }
 }

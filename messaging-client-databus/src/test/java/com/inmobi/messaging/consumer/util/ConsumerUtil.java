@@ -145,7 +145,7 @@ public class ConsumerUtil {
 
     // test checkpoint and consumer crash
     consumer = createConsumer(hadoop);
-    config.set(MessagingConsumerConfig.clustersNameConfig, "TTTTTestCluster1");
+    config.set(MessagingConsumerConfig.clustersNameConfig, "TTTTTestCluster1,TTTTTestCluster2");
     consumer.init(streamName, consumerName, null, config);
 
     compareConsumerCheckpoints(temp, checkpointMap, lastCheckpoint, consumer);
