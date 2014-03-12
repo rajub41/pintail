@@ -108,4 +108,23 @@ public class CheckpointList implements ConsumerCheckpoint {
   public void clear() {
     chkpoints.clear();
   }
+
+  @Override
+  public void migrateCheckpoint(Map<PartitionId, PartitionId> oldNewPidMap)
+      throws IOException {
+    for (Map.Entry<Integer, Checkpoint> entry : chkpoints.entrySet()) {
+      Checkpoint checkpoint = chkpoints.get(entry.getKey());
+      for (Map.Entry<PartitionId, PartitionCheckpoint> partitionCkEntry :
+        checkpoint.getPartitionsCheckpoint().entrySet()) {
+        PartitionId oldPid = partitionCkEntry.getKey();
+        if (oldNewPidMap.containsKey(oldPid)) {
+          PartitionCheckpoint pck = partitionCkEntry.getValue();
+          PartitionId newPid = oldNewPidMap.get(oldPid);
+          checkpoint.set(newPid, pck);
+          checkpoint.remove(oldPid);
+        }
+      }
+      chkpoints.put(entry.getKey(), checkpoint);
+    }
+  }
 }

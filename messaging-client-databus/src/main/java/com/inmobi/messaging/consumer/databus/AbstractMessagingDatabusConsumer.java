@@ -54,6 +54,7 @@ public abstract class AbstractMessagingDatabusConsumer
   protected Boolean startOfStream;
   private int closedReadercount;
   protected Configuration conf;
+  public Map<PartitionId, PartitionId> partitionIdMap;
 
   @Override
   protected void init(ClientConfig config) throws IOException {
@@ -105,7 +106,7 @@ public abstract class AbstractMessagingDatabusConsumer
             + " commandline authentication.");
       }
     }
-
+    partitionIdMap = new HashMap<PartitionId, PartitionId>();
     // Read consumer id
     String consumerIdStr = config.getString(consumerIdInGroupConfig,
         DEFAULT_CONSUMER_ID);
@@ -164,6 +165,10 @@ public abstract class AbstractMessagingDatabusConsumer
     startOfStream = config.getBoolean(startOfStreamConfig,
         DEFAULT_START_OF_STREAM);
     closedReadercount = 0;
+  }
+
+  public Map<PartitionId, PartitionId> getPartitionIdMap() {
+    return partitionIdMap;
   }
 
   protected boolean isValidConfiguration() {

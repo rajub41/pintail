@@ -24,6 +24,7 @@ import com.inmobi.messaging.consumer.databus.CheckpointList;
 import com.inmobi.messaging.consumer.databus.ConsumerCheckpoint;
 import com.inmobi.messaging.consumer.databus.DatabusConsumer;
 import com.inmobi.messaging.consumer.databus.DatabusConsumerConfig;
+import com.inmobi.messaging.consumer.databus.MessagingConsumerConfig;
 import com.inmobi.messaging.consumer.hadoop.HadoopConsumer;
 import com.inmobi.messaging.consumer.hadoop.HadoopConsumerConfig;
 
@@ -144,7 +145,7 @@ public class ConsumerUtil {
 
     // test checkpoint and consumer crash
     consumer = createConsumer(hadoop);
-
+    config.set(MessagingConsumerConfig.clustersNameConfig, "TTTTTestCluster1");
     consumer.init(streamName, consumerName, null, config);
 
     compareConsumerCheckpoints(temp, checkpointMap, lastCheckpoint, consumer);
@@ -331,17 +332,23 @@ public class ConsumerUtil {
     if (!hadoop) {
       config = ClientConfig.loadFromClasspath(
           MessageConsumerFactory.MESSAGE_CLIENT_CONF_FILE);
+      /*config.set(DatabusConsumer.checkpointDirConfig,
+          new Path(chkpointPathPrefix, "random-databus").toString());*/
       config.set(DatabusConsumer.checkpointDirConfig,
-          new Path(chkpointPathPrefix, "random-databus").toString());
+          new Path(chkpointPathPrefix, "checkpoint6").toString());
       config.set(DatabusConsumerConfig.databusRootDirsConfig,
           rootDir.toUri().toString());
+      config.set(MessagingConsumerConfig.clustersNameConfig, "testingClusterName");
     } else {
       config = ClientConfig.loadFromClasspath(
           "messaging-consumer-hadoop-conf.properties");
-      config.set(HadoopConsumer.checkpointDirConfig,
-          new Path(chkpointPathPrefix, "random-hadoop").toString());
+      config.set(HadoopConsumerConfig.checkpointDirConfig,
+          new Path(chkpointPathPrefix, "checkpoint7").toString());
+      /*config.set(HadoopConsumer.checkpointDirConfig,
+          new Path(chkpointPathPrefix, "random-hadoop").toString());*/
       config.set(HadoopConsumerConfig.rootDirsConfig,
           rootDir.toString());
+      config.set(MessagingConsumerConfig.clustersNameConfig, "testingClusterName");
     }
 
     // consumer starts from absolute start time

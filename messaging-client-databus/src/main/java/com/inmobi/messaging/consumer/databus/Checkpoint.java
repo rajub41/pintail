@@ -50,6 +50,11 @@ public class Checkpoint implements Writable, ConsumerCheckpoint {
     partitionsChkPoint.put(partitionId, (PartitionCheckpoint) partCheckpoint);
   }
 
+
+  public void remove(PartitionId pid) {
+    partitionsChkPoint.remove(pid);
+  }
+
   @Override
   public void read(CheckpointProvider checkpointProvider, String key)
       throws IOException {
@@ -79,6 +84,14 @@ public class Checkpoint implements Writable, ConsumerCheckpoint {
     int size = in.readInt();
     for (int i = 0; i < size; i++) {
       PartitionId pid = new PartitionId(in);
+     /* if () {
+        
+      }*/
+     // TODO make changes to add or remove root dir capability
+      /*
+       * If the partition id is in old parttion ids list then replace the old pid with corresponding new pid
+       * then partition checkpoint list will   new pid & pck
+       */
       boolean valueNotNull = in.readBoolean();
       if (valueNotNull) {
         partitionsChkPoint.put(pid, new PartitionCheckpoint(in));
@@ -153,5 +166,17 @@ public class Checkpoint implements Writable, ConsumerCheckpoint {
   @Override
   public void clear() {
     partitionsChkPoint.clear();
+  }
+
+  @Override
+  public void migrateCheckpoint(Map<PartitionId, PartitionId> oldNewPidMap) {
+    for (Map.Entry<PartitionId, PartitionCheckpoint> pckEntry :
+      partitionsChkPoint.entrySet()) {
+      PartitionId pid = pckEntry.getKey();
+      if (oldNewPidMap.containsKey(pid)) {
+        partitionsChkPoint.put(oldNewPidMap.get(pid), pckEntry.getValue());
+        partitionsChkPoint.remove(pid);
+      }
+    }
   }
 }

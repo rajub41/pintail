@@ -48,8 +48,27 @@ public class HadoopConsumer extends AbstractMessagingDatabusConsumer
       clusterNames[i] = clusterNamePrefix + i;
     }
 
+    String clusterNameStr = config.getString(clustersNameConfig);
+    String [] clusterNameStrs;
+    if (clusterNameStr != null) {
+      clusterNameStrs = clusterNameStr.split(",");
+      //clusterNames = new String[clusterNameStrs.length];
+      for (int i = 0; i < clusterNameStrs.length; i++) {
+        PartitionId oldPid = new PartitionId(clusterNames[i], null);
+        clusterNames[i] = clusterNameStrs[i];
+        PartitionId newPid = new PartitionId(clusterNames[i], null);
+        partitionIdMap.put(oldPid, newPid);
+      }
+      assert clusterNameStrs.length == rootDirStrs.length;
+    } else {
+      LOG.info("using default cluster names as clustersName config is missing");
+    }
+
     inputFormatClassName = config.getString(inputFormatClassNameConfig,
         DEFAULT_INPUT_FORMAT_CLASSNAME);
+    if (!partitionIdMap.isEmpty()) {
+      currentCheckpoint.migrateCheckpoint(partitionIdMap);
+    }
   }
 
   /**
@@ -63,6 +82,10 @@ public class HadoopConsumer extends AbstractMessagingDatabusConsumer
 
       // create partition id
       PartitionId id = new PartitionId(clusterName, null);
+      /*if (!clusterName.equals(clusterNamePrefix + i)) {
+        PartitionId defaultPid = new PartitionId(clusterNamePrefix + i, null);
+        partitionIdMap.put(defaultPid, id);
+      }*/
       // Get the partition checkpoint list from consumer checkpoint
       PartitionCheckpointList partitionCheckpointList = 
           ((CheckpointList) currentCheckpoint).preaprePartitionCheckPointList(id);
