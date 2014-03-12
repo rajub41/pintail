@@ -71,6 +71,8 @@ public abstract class StreamReader<T extends StreamFile> {
 
   protected abstract FileMap<T> createFileMap() throws IOException;
 
+  protected abstract Date getTimeStampFromCollectorStreamFile(FileStatus file);
+
   public void build() throws IOException {
     fileMap.build();
   }
@@ -431,5 +433,18 @@ public abstract class StreamReader<T extends StreamFile> {
       return true;
     }
     return false;
+  }
+
+  protected void setCurrentReadPathMetric(Date currentTimeStamp) {
+    metrics.setReadCurrentPathTimeStamp(currentTimeStamp);
+  }
+
+  protected long getReadCurrentPathTimeMetric() {
+    return metrics.getReadCurrentPathTime();
+  }
+
+  public void updateCurrentPathMetricForCollectorReader() {
+    setCurrentReadPathMetric(
+        getTimeStampFromCollectorStreamFile(currentFile));
   }
 }

@@ -164,8 +164,13 @@ public class CollectorStreamReader extends StreamReader<CollectorFile> {
   protected Message readRawLine() throws IOException {
     int next = reader.read();
     while ((char) next != '\n') {
-      if (next == -1) {
+      if (next == -1) {   
         LOG.info("reading EOF before a line feed ");
+        //TODO update metrics
+        if (builder.toString().isEmpty()) {
+          //TODO update metrics
+          updateCurrentPathMetricForCollectorReader();
+        }
         return null;
       }
       builder.append((char) next);
@@ -180,6 +185,17 @@ public class CollectorStreamReader extends StreamReader<CollectorFile> {
     }
   }
 
+  @Override
+  protected Date getTimeStampFromCollectorStreamFile(FileStatus file) {
+    try {
+      return CollectorStreamReader.getDateFromCollectorFile(
+          getCurrentFile().getName());
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+  }
   protected Message readNextLine()
       throws IOException {
     Message line = null;
@@ -265,6 +281,9 @@ public class CollectorStreamReader extends StreamReader<CollectorFile> {
         }
       }
       line = readNextLine();
+      if (line != null) {
+        updateCurrentPathMetricForCollectorReader();
+      }
     }
     return line;
   }

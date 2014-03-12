@@ -1,6 +1,6 @@
 package com.inmobi.messaging.metrics;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 

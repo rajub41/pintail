@@ -152,7 +152,10 @@ public class DatabusStreamWaitingReader
               // stopping after listing two non empty directories
               LOG.debug("Listing stopped after listing two non empty directories");
               break;
+            } else if (numFilesInFileMap == 0) {
+              setCurrentReadPathMetric(currenTimestamp);
             }
+            updateReadCurrentPathMetric(currenTimestamp);
           } else {
             LOG.info("Reached end of file listing. Not looking at the last"
                 + " minute directory:" + dir);
@@ -165,6 +168,17 @@ public class DatabusStreamWaitingReader
     if (getFirstFileInStream() != null && (currentMin == -1)) {
       currentMin = getMinuteFromFile(getFirstFileInStream());
     }
+  }
+
+  private void updateReadCurrentPathMetric(Date currentTimeStamp) {
+    if (getCurrentMin() != -1
+        && isUpdateRequired(currentTimeStamp)) {
+      setCurrentReadPathMetric(currentTimeStamp);
+    }
+  }
+
+  private boolean isUpdateRequired(Date currentTimeStamp) {
+    return getReadCurrentPathTimeMetric() < currentTimeStamp.getTime();
   }
 
   /*
@@ -507,5 +521,10 @@ public class DatabusStreamWaitingReader
           + currentLineNum);
       setIterator();
     }
+  }
+
+  @Override
+  protected Date getTimeStampFromCollectorStreamFile(FileStatus file) {
+    throw new UnsupportedOperationException("Can not be supported ");
   }
 }
