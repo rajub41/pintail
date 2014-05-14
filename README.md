@@ -1,4 +1,4 @@
-#pintail
+#Pintail
 
 [![Build Status](https://travis-ci.org/InMobi/pintail.png?branch=master)](https://travis-ci.org/InMobi/pintail)
 
