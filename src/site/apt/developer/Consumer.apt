@@ -20,6 +20,8 @@
 
 Consumer
 
+%{toc}
+
 *Streaming Consumer
 
  MessageConsumer can consumer messages from a topic. Consumer can iterate over the messages through <<<next>>> call. MessageConsumer would also support mark and reset for checkpointing. See the {{{https://github.com/inmobi/pintail/blob/master/messaging\-client\-core/src/main/java/com/inmobi/messaging/consumer/MessageConsumer.java}Consumer API}} for more details.
