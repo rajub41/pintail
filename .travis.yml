@@ -8,5 +8,5 @@ branches:
     - develop
     - /^release-.*$/
     - /^hotfix-.*$/
-
+    - travis
 script: "mvn clean install && mvn site site:stage"
